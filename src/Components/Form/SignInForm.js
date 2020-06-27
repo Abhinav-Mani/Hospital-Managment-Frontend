@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form ,Input} from 'semantic-ui-react'
+import FormError from "./FormError"
+import api from "../../api"
 const SignInForm = () => {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const [possition,setPostion] = useState('');
     const [error , setError    ] = useState({});
+    const [loading, setLoading ] = useState(false);
     const valid=()=>{
         var error={};
         if(username.length<5){
@@ -18,21 +21,44 @@ const SignInForm = () => {
         }
         return error;
     }
+    const SignIn=()=>{
+
+        let credentials={
+            username:username,
+            password:password
+        } ;
+        api.signIn({possition:possition,credentials:credentials})
+        .then(res=>setLoading(false))
+        .catch(err=>{
+            if(!err.response){
+                setError({login:"Connection Timeout"});
+                setLoading(false);
+            }else if (err.response.status) {
+              setError({login:"Username or Password is wrong"});
+              setLoading(false);
+              return;
+            }
+            return console.log(err)
+          }
+        );
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         let err=valid();
         if(Object.keys(err).length===0){
             setError(err);
-           console.log(username+" "+password);
+            SignIn();
+            setLoading(true);
         }else{
             setError(err);
             console.log(err);
         }
     }
     return ( 
-        <Form onSubmit={handleSubmit}>
+        <>
+        {error.login&&<FormError message={error.login}/>}
+        <Form onSubmit={handleSubmit} loading={loading}>
             <Form.Field
-                label={"Username"}
                 control={Input}
                 placeholder='Username'  
                 value={username} 
@@ -45,7 +71,6 @@ const SignInForm = () => {
                 }
             />
             <Form.Field
-                label={"Password"}
                 control={Input}
                 placeholder='Password' 
                 type={'password'} 
@@ -58,8 +83,7 @@ const SignInForm = () => {
                     }:null
                 }
             />
-            <Form.Field 
-            label='Post' 
+            <Form.Field  
             control='select' 
             value={possition} 
             error={ error.possition?
@@ -73,11 +97,13 @@ const SignInForm = () => {
                 <option value=''>Select One</option>
                 <option value='doctor'>Doctor</option>
                 <option value='receptionist'>Receptionist</option>
-                <option value='pharmsist'>Pharmsist</option>
+                <option value='pharmacist'>Pharmsist</option>
             </Form.Field>
             <Button type='submit'>Sign In</Button>
         </Form>
+        </>
      );
+
 }
  
 export default SignInForm;
