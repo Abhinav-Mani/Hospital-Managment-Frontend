@@ -1,20 +1,75 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form ,Input} from 'semantic-ui-react'
 const SignInForm = () => {
-    const [usename,setUsername] = useState("");
+    const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const [possition,setPostion] = useState('');
+    const [error , setError    ] = useState({});
+    const valid=()=>{
+        var error={};
+        if(username.length<5){
+            error.username="Must be 5 Character Long"
+        }
+        if(password.length<5){
+            error.password="Must be 5 Character Long"
+        }
+        if(possition === ""){
+            error.possition="No position selected"
+        }
+        return error;
+    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let err=valid();
+        if(Object.keys(err).length===0){
+            setError(err);
+           console.log(username+" "+password);
+        }else{
+            setError(err);
+            console.log(err);
+        }
+    }
     return ( 
-        <Form>
-            <Form.Field>
-                <label>Username</label>
-                <input placeholder='Username' value={usename} onChange={e=>setUsername(e.target.value)} />
-            </Form.Field>
-            <Form.Field>
-                <label>Password</label>
-                <input placeholder='Password' type={'password'} value={password} onChange={e=>setPassword(e.target.value)}/>
-            </Form.Field>
-            <Form.Field label='Post' control='select' value={possition} onChange={e=>setPostion(e.target.value)}>
+        <Form onSubmit={handleSubmit}>
+            <Form.Field
+                label={"Username"}
+                control={Input}
+                placeholder='Username'  
+                value={username} 
+                onChange={e=>setUsername(e.target.value)}
+                error={ error.username?
+                    {
+                        content: error.username,
+                        pointing: 'below',
+                    }:null
+                }
+            />
+            <Form.Field
+                label={"Password"}
+                control={Input}
+                placeholder='Password' 
+                type={'password'} 
+                value={password} 
+                onChange={e=>setPassword(e.target.value)}
+                error={ error.password?
+                    {
+                        content: error.password,
+                        pointing: 'below',
+                    }:null
+                }
+            />
+            <Form.Field 
+            label='Post' 
+            control='select' 
+            value={possition} 
+            error={ error.possition?
+                {
+                    content: error.possition,
+                    pointing: 'below',
+                }:null
+            }
+            onChange={e=>setPostion(e.target.value)}
+            >
                 <option value=''>Select One</option>
                 <option value='doctor'>Doctor</option>
                 <option value='receptionist'>Receptionist</option>
