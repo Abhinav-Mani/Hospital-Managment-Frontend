@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form ,Input} from 'semantic-ui-react'
 import FormError from "./FormError"
 import api from "../../api"
+import { AuthContext } from '../../context/AuthContextProvider';
 const SignInForm = () => {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const [possition,setPostion] = useState('');
     const [error , setError    ] = useState({});
     const [loading, setLoading ] = useState(false);
+    const {setToken} = useContext(AuthContext);
     const valid=()=>{
         var error={};
         if(username.length<5){
@@ -28,7 +30,10 @@ const SignInForm = () => {
             password:password
         } ;
         api.signIn({possition:possition,credentials:credentials})
-        .then(res=>setLoading(false))
+        .then(res=>{
+            setLoading(false)
+            setToken(res.data.accessToken);
+        })
         .catch(err=>{
             if(!err.response){
                 setError({login:"Connection Timeout"});

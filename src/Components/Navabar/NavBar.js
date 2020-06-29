@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {Menu} from 'semantic-ui-react'
 import {Redirect} from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContextProvider';
+import SignInMenu from './SignInMenu';
+import SignOutMenu from './SignOutMenu';
 
 function NavBar(){
+    const {token} = useContext(AuthContext);
     const [activeItem,setActiveItem]=useState('home');
     const onClickHandler=(click)=>{
         setActiveItem(click);
@@ -16,20 +20,13 @@ function NavBar(){
               active={activeItem === 'home'}
               onClick={()=>onClickHandler('home')}
             />
-            <Menu.Menu position="right">
-                <Menu.Item
-                name='signIn'
-                active={activeItem === 'signIn'}
-                onClick={()=>onClickHandler('signIn')}
-                />
-                <Menu.Item
-                name='signUp'
-                active={activeItem === 'signUp'}
-                onClick={()=>onClickHandler('signUp')}
-                />
-            </Menu.Menu>
+            {!token?
+            <SignInMenu 
+              onClickHandler={onClickHandler} 
+              activeItem={activeItem}
+            />
+            :<SignOutMenu/>}
           </Menu>
-  
         </div>
       )
 }
