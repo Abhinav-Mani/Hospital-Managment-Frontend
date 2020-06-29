@@ -13,6 +13,7 @@ function NavBar(){
     }
     return (
         <div>
+          {console.log(token)}
           <Redirect to={`/${activeItem}`}/>
           <Menu pointing inverted fixed={'top'} color={'blue'}>
             <Menu.Item
