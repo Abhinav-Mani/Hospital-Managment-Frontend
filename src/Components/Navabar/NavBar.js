@@ -7,7 +7,7 @@ import SignOutMenu from './SignOutMenu';
 
 function NavBar(){
     const {token} = useContext(AuthContext);
-    const [activeItem,setActiveItem]=useState('home');
+    const [activeItem,setActiveItem]=useState('signIn');
     const onClickHandler=(click)=>{
         setActiveItem(click);
     }
@@ -16,11 +16,6 @@ function NavBar(){
           {console.log(token)}
           <Redirect to={`/${activeItem}`}/>
           <Menu pointing inverted fixed={'top'} color={'blue'}>
-            <Menu.Item
-              name='home'
-              active={activeItem === 'home'}
-              onClick={()=>onClickHandler('home')}
-            />
             {!token?
             <SignInMenu 
               onClickHandler={onClickHandler} 
