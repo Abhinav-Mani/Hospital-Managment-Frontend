@@ -11,13 +11,30 @@ const options = [
 ]
 
 const RegisterForm = () => {
-    const [currentDate, setNewDate] = useState(null);
-    const onChange = (event, data) => setNewDate(data.value);
+    const [DOB, setDate] = useState(null);
+    const [email,setEmail]          = useState("");
+    const [firstName,setFirstName]  = useState("");
+    const [lastName, setLastName ]  = useState("");
+    const [phoneNo , setPhoneNo  ]  = useState("");
+    const [agree,setAgree] =useState(false);
+    const onChange = (event, data) => setDate(data.value);
+    const submitHandler = e =>{
+        e.preventDefault();
+        console.log(firstName+" "+lastName+" "+phoneNo+" "+agree+" "+DOB);
+    }
     return ( 
-        <Form style={{padding:40}}>
+        <Form style={{padding:40}} onSubmit={submitHandler}>
           <Form.Group widths='equal'>
-          <Form.Input fluid label='First name' placeholder='First name' />
-          <Form.Input fluid label='Last name' placeholder='Last name' />
+          <Form.Input fluid 
+          label='First name' 
+          placeholder='First name' 
+          value={firstName}
+          onChange={(e)=>setFirstName(e.target.value)}/>
+          <Form.Input fluid 
+          label='Last name' 
+          placeholder='Last name'
+          value={lastName}
+          onChange={e=>setLastName(e.target.value)} />
           <Form.Select
             fluid
             label='Gender'
@@ -26,12 +43,25 @@ const RegisterForm = () => {
           />
         </Form.Group>
         <Form.Group>
-            <Form.Input label='Email' placeholder='joe@schmoe.com' width={8} />
-            <Form.Input label='Phone No' placeholder='1234567890' width={4} /> 
+            <Form.Input 
+            label='Email' 
+            placeholder='joe@schmoe.com' 
+            width={8}
+            value={email}
+            onChange={e=>setEmail(e.target.value)} />
+            <Form.Input 
+            label='Phone No' 
+            placeholder='1234567890' 
+            width={4}
+            value={phoneNo}
+            onChange={e=>setPhoneNo(e.target.value)} /> 
             <SemanticDatepicker label='D.O.B' onChange={onChange} width={4} /> 
         </Form.Group>
         <Form.Field>
-            <Checkbox label='I agree to the Terms and Conditions' />
+            <Checkbox
+            checked={agree}
+            onChange={e=>setAgree(!agree)} 
+            label='I agree to the Terms and Conditions' />
         </Form.Field>
         <Button type='submit'>Submit</Button>
         </Form>
