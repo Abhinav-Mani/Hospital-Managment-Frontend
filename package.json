@@ -11,7 +11,8 @@
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-semantic-ui-datepickers": "^2.8.0"
   },
   "scripts": {
     "start": "set PORT=4000 &&react-scripts start",
