@@ -3,6 +3,7 @@ import { Button, Checkbox, Form } from 'semantic-ui-react'
 
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import api from "../../api";
 
 const options = [
     { key: 'm', text: 'Male', value: 'male' },
@@ -46,7 +47,18 @@ const RegisterForm = () => {
     const submitHandler = e =>{
         e.preventDefault();
         if(isValid()){
-            console.log(firstName+" "+lastName+" "+phoneNo+" "+agree+" "+DOB);
+            console.log(gender)
+            let data={
+                email:email,
+                lastName:lastName,
+                firstName:firstName,
+                dob:new Date(DOB).toISOString().slice(0, 19).replace('T', ' '),
+                phoneNo:phoneNo,
+                gender:gender
+            }
+            api.addPatient(data)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
         }
     }
     return ( 
@@ -84,6 +96,7 @@ const RegisterForm = () => {
                 }:null
             }
             options={options}
+            onChange={(e,{value})=>setGender(value)}
             placeholder='Gender'
           />
         </Form.Group>
