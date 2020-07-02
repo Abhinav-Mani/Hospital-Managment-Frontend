@@ -20,6 +20,7 @@ const RegisterForm = () => {
     const [agree,setAgree] =useState(false);
     const [error,setError] = useState({});
     const [gender,setGender] = useState(null);
+    const [loading,setLoading] = useState(false);
     const onChange = (event, data) => setDate(data.value);
     const isValid=()=>{
         const err={};
@@ -46,6 +47,7 @@ const RegisterForm = () => {
     }
     const submitHandler = e =>{
         e.preventDefault();
+        setLoading(true);
         if(isValid()){
             console.log(gender)
             let data={
@@ -57,12 +59,14 @@ const RegisterForm = () => {
                 gender:gender
             }
             api.addPatient(data)
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err));
+            .then(res=>setLoading(false))
+            .catch(err=>setLoading(false));
+        }else{
+            setLoading(false);
         }
     }
     return ( 
-        <Form style={{padding:40}} onSubmit={submitHandler}>
+        <Form style={{padding:40}} onSubmit={submitHandler} loading={loading}>
           <Form.Group widths='equal'>
           <Form.Input fluid 
           label='First name' 
