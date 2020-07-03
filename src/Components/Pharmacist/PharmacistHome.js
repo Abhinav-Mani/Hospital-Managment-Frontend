@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react'
+import ResetPage from '../Receptionist/Reset/ResetPage';
 
 const PharmacistHome = () => {
     const [activeItem,setActiveItem]=useState('add remove');
@@ -32,6 +33,7 @@ const PharmacistHome = () => {
         </Grid.Column>
         <Grid.Column stretched width={12} style={{marginTop:50}}>
           <Segment>
+            {activeItem==='reset'&&<ResetPage/>}
           </Segment>
         </Grid.Column>
       </Grid>
