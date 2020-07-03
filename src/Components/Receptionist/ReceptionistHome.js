@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react'
 import RegisterForm from './RegisterForm';
+import SearchPage from './Search/SearchPage';
+import ResetPage from './Reset/ResetPage';
+import ShedulePage from './Schedule/ShedulePage';
 
 const ReceptionistHome = () => {
     const [activeItem,setActiveItem]=useState('register');
@@ -8,7 +11,7 @@ const ReceptionistHome = () => {
     return ( 
         <Grid style={{height:'100vh',marginLeft:40,marginRight:40}}>
         <Grid.Column width={4} style={{marginTop:50}}>
-          <Menu fluid vertical tabular color={'blue'} fixed>
+          <Menu fluid vertical tabular color={'blue'} >
             <Menu.Item
               name='register'
               active={activeItem === 'register'}
@@ -35,6 +38,9 @@ const ReceptionistHome = () => {
         <Grid.Column stretched width={12} style={{marginTop:50}}>
           <Segment>
             {activeItem === 'register'&&<RegisterForm/>}
+            {activeItem === 'search'&&<SearchPage/>}
+            {activeItem === 'reset'&&<ResetPage/>}
+            {activeItem === 'appointment'&&<ShedulePage/>}
           </Segment>
         </Grid.Column>
       </Grid>
