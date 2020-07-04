@@ -28,8 +28,8 @@ const ManagmentHome = () => {
                                     <MediceneForm 
                                     name={medicine[0]}
                                     amount={medicine[1]} 
-                                    cost={medicine[1]} 
-                                    warning={medicine[2]}
+                                    cost={medicine[2]} 
+                                    warning={medicine[3]}
                                     getMedicene={GetMedicine} />
                                 </List.Content>
                             </List.Content>

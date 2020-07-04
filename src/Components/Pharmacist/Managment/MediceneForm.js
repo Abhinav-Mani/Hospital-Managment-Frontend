@@ -4,8 +4,8 @@ import api from '../../../api';
 
 const MediceneForm = ({getMedicene,name,amount,cost,warning}) => {
     const [quantity,setQuantity] = useState(amount);
-    const [min,setMin] = useState(cost);
-    const [price,setPrice] = useState(warning);
+    const [min,setMin] = useState(warning);
+    const [price,setPrice] = useState(cost);
     const deleteMedicene=()=>{
         const querryParam={
             name:name      
@@ -14,6 +14,18 @@ const MediceneForm = ({getMedicene,name,amount,cost,warning}) => {
         .then(res=>console.log(`Deleted ${name}`))
         .catch(err=>console.log("Something Went Wrong"))
         .finally(()=>getMedicene());
+    }
+    const updateMedicene=()=>{
+        const querryParam={
+            name : name,
+            price : price,
+            amount : quantity,
+            min : min    
+        }
+        api.updateMedicene(querryParam)
+        .then(res=>console.log(res))
+        .catch(err=>console.log(err))
+        .finally(()=>getMedicene);
     }
     return ( 
         <Form>
@@ -40,7 +52,7 @@ const MediceneForm = ({getMedicene,name,amount,cost,warning}) => {
             <Button.Group fluid>
                 <Button color="red" onClick={deleteMedicene} >Delete</Button>
                 <Button.Or />
-                <Button positive>Update</Button>
+                <Button positive onClick={updateMedicene}>Update</Button>
             </Button.Group>
         </Form>
      );
