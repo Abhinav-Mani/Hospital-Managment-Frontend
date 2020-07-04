@@ -5,14 +5,15 @@ import MediceneForm from './MediceneForm';
 
 const ManagmentHome = () => {
     const [medicines,setMedicience] = useState([]);
-    useEffect(()=>{
+    const GetMedicine=()=>{
         api.getMedicene()
         .then(res=>{
             console.log(res);
             setMedicience(res);
         })
         .catch(err=>console.log(err));
-    },[])
+    }
+    useEffect(()=>GetMedicine(),[])
     return ( 
         <>
             <List divided relaxed>
@@ -25,9 +26,11 @@ const ManagmentHome = () => {
                                 </List.Header>
                                 <List.Content>
                                     <MediceneForm 
+                                    name={medicine[0]}
                                     amount={medicine[1]} 
                                     cost={medicine[1]} 
-                                    warning={medicine[2]} />
+                                    warning={medicine[2]}
+                                    getMedicene={GetMedicine} />
                                 </List.Content>
                             </List.Content>
                         </List.Item>

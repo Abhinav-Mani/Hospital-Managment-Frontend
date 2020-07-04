@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { Form,Button } from 'semantic-ui-react'
+import api from '../../../api';
 
-const MediceneForm = ({amount,cost,warning}) => {
+const MediceneForm = ({getMedicene,name,amount,cost,warning}) => {
     const [quantity,setQuantity] = useState(amount);
     const [min,setMin] = useState(cost);
     const [price,setPrice] = useState(warning);
+    const deleteMedicene=()=>{
+        const querryParam={
+            name:name      
+        }
+        api.deleteMedicene(querryParam)
+        .then(res=>console.log(`Deleted ${name}`))
+        .catch(err=>console.log("Something Went Wrong"))
+        .finally(()=>getMedicene());
+    }
     return ( 
         <Form>
             <Form.Group widths={'equal'}>
@@ -28,7 +38,7 @@ const MediceneForm = ({amount,cost,warning}) => {
                 />
             </Form.Group>
             <Button.Group fluid>
-                <Button color="red" >Delete</Button>
+                <Button color="red" onClick={deleteMedicene} >Delete</Button>
                 <Button.Or />
                 <Button positive>Update</Button>
             </Button.Group>
