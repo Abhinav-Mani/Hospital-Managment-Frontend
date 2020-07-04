@@ -10,5 +10,6 @@ export default{
     getDoctor:()=>axios.get(`${baseURL}doctor`).then(res=>res.data),
     shedule:(data)=>axios.post(`${baseURL}shedule`,data).then(res=>res.data),
     getPatient:()=>axios.get(`${baseURL}shedule`).then(res=>res.data),  
-    addMediciene:(data)=>axios.post(`${baseURL}medicine`,data).then(res=>res.data),        
+    addMediciene:(data)=>axios.post(`${baseURL}medicine`,data).then(res=>res.data),
+    getMedicene:()=>axios.get(`${baseURL}medicine`).then(res=>res.data),       
 }

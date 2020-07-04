@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react'
 import ResetPage from '../Receptionist/Reset/ResetPage';
 import AddMediciene from './AddMediciene/AddMediciene';
+import ManagmentHome from './Managment/Managment';
 
 const PharmacistHome = () => {
     const [activeItem,setActiveItem]=useState('add');
@@ -16,8 +17,8 @@ const PharmacistHome = () => {
               onClick={handleItemClick}
             />
             <Menu.Item
-              name='quantity'
-              active={activeItem === 'quantity'}
+              name='Managment'
+              active={activeItem === 'Managment'}
               onClick={handleItemClick}
             />
             <Menu.Item
@@ -35,6 +36,7 @@ const PharmacistHome = () => {
         <Grid.Column stretched width={12} style={{marginTop:50}}>
           <Segment>
             {activeItem==='add'&&<AddMediciene/>}
+            {activeItem==='Managment'&&<ManagmentHome/>}
             {activeItem==='reset'&&<ResetPage/>}
           </Segment>
         </Grid.Column>
