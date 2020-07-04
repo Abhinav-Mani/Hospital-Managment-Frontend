@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form,Message } from 'semantic-ui-react'
+import api from '../../../api';
 
 const AddMediciene = () => {
     const [name,setName] = useState("");
@@ -7,6 +8,8 @@ const AddMediciene = () => {
     const [quantity,setQuantity]=useState("");
     const [min,setMin]=useState("");
     const [error,setError]=useState({});
+    const [loading,setLoading]=useState(false);
+    const [message,setMessage]=useState("");
     const valid=()=>{
         const err={};
         if(name===""){
@@ -26,18 +29,37 @@ const AddMediciene = () => {
     }
     const submitHandler=(event)=>{
         event.preventDefault();
+        setLoading(true);
         if(valid()){
             console.log(error);
             const querryParams={
                 name:name,
                 price:price,
-                ammount:quantity,
+                amount:quantity,
                 min:min
             }
+            api.addMediciene(querryParams)
+            .then(res=>{
+                setLoading(false);
+                setMessage({
+                    content:"Medicene added sucessfully",
+                    color:'green'
+                });
+            }).catch(err=>{
+                setMessage({
+                    content:"Something Went Wrong",
+                    color:'red'
+                });
+                setLoading(false);
+            })
+        }else{
+            setLoading(false);
         }
     }
     return ( 
-       <Form onSubmit={submitHandler}>
+        <>
+        {message&&<Message color={message.color}>{message.content}</Message>}
+       <Form onSubmit={submitHandler} loading={loading}>
            <Form.Input
            label="Name"
            placeholder="Medicene Name"
@@ -93,6 +115,7 @@ const AddMediciene = () => {
            </Form.Group>
            <Button type='submit' fluid>Submit</Button>
        </Form>
+       </>
      );
 }
  
