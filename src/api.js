@@ -11,5 +11,7 @@ export default{
     shedule:(data)=>axios.post(`${baseURL}shedule`,data).then(res=>res.data),
     getPatient:()=>axios.get(`${baseURL}shedule`).then(res=>res.data),  
     addMediciene:(data)=>axios.post(`${baseURL}medicine`,data).then(res=>res.data),
-    getMedicene:()=>axios.get(`${baseURL}medicine`).then(res=>res.data),       
+    getMedicene:()=>axios.get(`${baseURL}medicine`).then(res=>res.data),
+    updateMedicene:data=>axios.patch(`${baseURL}medicine`,data),
+    deleteMedicene:data=>axios.delete(`${baseURL}medicine`,data),       
 }
