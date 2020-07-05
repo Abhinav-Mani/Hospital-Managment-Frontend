@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Card ,Icon,Button,List,Form} from 'semantic-ui-react'
 import api from '../../../api';
 
 const PatientProfile = ({data}) => {
-    const [sending,setSending] = useState(false); 
-    const [medicinces,setMedinces] =useState(["Med1","Med2"]);
+    const [sending,setSending] = useState(false);
+    const [prescriptions,setPrescriptions] =useState([]); 
+    const [medicinces,setMedinces] =useState([]);
+    const [error,setError]=useState("");
+    useEffect(()=>{
+        api.getMedicene().then(res=>{
+            setMedinces( res.map(r=>({
+                text:r[0],
+                value:r[0],
+                key:r[0]
+            })))
+        });
+    },[])
+    const submitHandler=()=>{
+        console.log("clicked");
+        let querryParams={
+            id:data[0],
+            list:prescriptions
+        }
+        api.addPrescription(querryParams)
+        .then(res=>console.log(res))
+        .catch(err=>console.log(err));
+    }
+    const addPrescription=(value)=>{
+        if(prescriptions.includes(value)){
+            setError("Already Prescribed");
+        }else{
+            setPrescriptions([...prescriptions,value])
+        }
+    }
+    const removePrescription=(value)=>{
+        setPrescriptions( prescriptions.filter(prescription=>prescription!==value) );
+    }
     const mail=()=>{
         setSending(true);
         const querryParams={
@@ -20,7 +51,7 @@ const PatientProfile = ({data}) => {
         <Card.Group>
         <Card fluid>
             <Card.Content>
-                <Card.Header>{data[6]} {data[7]}</Card.Header>
+                <Card.Header>{data[5]} {data[6]}</Card.Header>
                 <Card.Meta>{data[9]}</Card.Meta>
                 <Card.Meta>{data[10]}</Card.Meta>
                 <Card.Meta>{data[7]}</Card.Meta>
@@ -42,14 +73,28 @@ const PatientProfile = ({data}) => {
         <Card fluid>
             <Card.Content >
                 <List divided relaxed>
-                    {medicinces.map(medeicine=>(
-                        <List.Item>
-                            {medeicine}
+                    {prescriptions.map(prescription=>(
+                        <List.Item key={prescription}>
+                            {prescription}
+                            <Button floated='right' onClick={()=>removePrescription(prescription)} color="red"><Icon name="close" floated="right"/></Button>
                         </List.Item>
                     ))}
                 </List>
                 <Form>
-                    
+                <Form.Select
+                    fluid
+                    error={
+                        error?{
+                        content: error,
+                        pointing: 'below',
+                        }:null
+                    } 
+                    label='Mediciene'
+                    options={medicinces}
+                    onChange={(e,{value})=>addPrescription(value)}
+                    placeholder='Prescribe Medicene'
+                /> 
+                <Button fluid onClick={()=>submitHandler()} color='green'>Prescribe</Button>
                 </Form>
             </Card.Content>
         </Card>

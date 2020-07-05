@@ -14,5 +14,6 @@ export default{
     getMedicene:()=>axios.get(`${baseURL}medicine`).then(res=>res.data),
     updateMedicene:data=>axios.patch(`${baseURL}medicine`,data),
     deleteMedicene:data=>axios.delete(`${baseURL}medicine`,{params:data}),
-    mail:data=>axios.post(`${baseURL}email`,data),       
+    mail:data=>axios.post(`${baseURL}email`,data),
+    addPrescription:data=>axios.post(`${baseURL}prescription`,data),       
 }
