@@ -7,7 +7,8 @@ const BillingHome = () => {
     useEffect(()=>{
         api.getPrescription()
         .then(res=>{
-            setPatients(res.data);
+            let patientsId=res.map(data=>data[0]);
+            setPatients([...new Set(patientsId)]);
         })
         .catch(err=>console.log(err));
     },[])

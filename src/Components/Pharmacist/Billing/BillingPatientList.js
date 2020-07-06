@@ -6,11 +6,11 @@ const BillingPatienList = ({patients,setPatient}) => {
         <List divided verticalAlign='middle'>
             {
                 patients.map(patient=>(
-                    <List.Item key={patient[0]}>
+                    <List.Item key={patient}>
                         <List.Content floated='right'>
-                            <Button onClick={()=>setPatient(patient[0])}>View</Button>
+                            <Button onClick={()=>setPatient(patient)}>View</Button>
                         </List.Content>
-                        <List.Content>{patient[0]}</List.Content>
+                        <List.Content>{patient}</List.Content>
                     </List.Item>
                 ))
             }
