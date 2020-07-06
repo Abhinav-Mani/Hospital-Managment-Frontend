@@ -16,5 +16,6 @@ export default{
     deleteMedicene:data=>axios.delete(`${baseURL}medicine`,{params:data}),
     mail:data=>axios.post(`${baseURL}email`,data),
     addPrescription:data=>axios.post(`${baseURL}prescription`,data),  
-    getPrescription:()=>axios.get(`${baseURL}prescription`).then(res=>res.data),     
+    getPrescription:()=>axios.get(`${baseURL}prescription`).then(res=>res.data),
+    doBilling:data=>axios.post(`${baseURL}billing`,data)     
 }
