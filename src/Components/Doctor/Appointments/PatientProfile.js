@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Card ,Icon,Button,List,Form} from 'semantic-ui-react'
+import { Card ,Icon,Button,List,Form,Message} from 'semantic-ui-react'
 import api from '../../../api';
 
 const PatientProfile = ({data}) => {
@@ -7,6 +7,8 @@ const PatientProfile = ({data}) => {
     const [prescriptions,setPrescriptions] =useState([]); 
     const [medicinces,setMedinces] =useState([]);
     const [error,setError]=useState("");
+    const [disable,setDisable]=useState(false);
+    const [message,setMessage]=useState("");
     useEffect(()=>{
         api.getMedicene().then(res=>{
             setMedinces( res.map(r=>({
@@ -17,14 +19,20 @@ const PatientProfile = ({data}) => {
         });
     },[])
     const submitHandler=()=>{
-        console.log("clicked");
+        setDisable(true);
         let querryParams={
             id:data[0],
             list:prescriptions
         }
         api.addPrescription(querryParams)
-        .then(res=>console.log(res))
-        .catch(err=>console.log(err));
+        .then(res=>{
+            setMessage("Prescription sent")
+            return;
+        })
+        .catch(err=>{
+            setDisable(false);
+            setMessage("Something went wrong");
+        });
     }
     const addPrescription=(value)=>{
         if(prescriptions.includes(value)){
@@ -70,6 +78,8 @@ const PatientProfile = ({data}) => {
                 </Card.Header>
             </Card.Content>
         </Card>
+        {console.log(message)}
+        {message&&<Message color='green'>{message}</Message>}
         <Card fluid>
             <Card.Content >
                 <List divided relaxed>
@@ -94,7 +104,7 @@ const PatientProfile = ({data}) => {
                     onChange={(e,{value})=>addPrescription(value)}
                     placeholder='Prescribe Medicene'
                 /> 
-                <Button fluid onClick={()=>submitHandler()} color='green'>Prescribe</Button>
+                <Button disabled={disable} fluid onClick={()=>submitHandler()} color='green'>Prescribe</Button>
                 </Form>
             </Card.Content>
         </Card>

@@ -3,6 +3,7 @@ import { Grid, Menu, Segment } from 'semantic-ui-react'
 import ResetPage from '../Receptionist/Reset/ResetPage';
 import AddMediciene from './AddMediciene/AddMediciene';
 import ManagmentHome from './Managment/Managment';
+import BillingHome from './Billing/BillingHome';
 
 const PharmacistHome = () => {
     const [activeItem,setActiveItem]=useState('add');
@@ -37,6 +38,7 @@ const PharmacistHome = () => {
           <Segment>
             {activeItem==='add'&&<AddMediciene/>}
             {activeItem==='Managment'&&<ManagmentHome/>}
+            {activeItem==='billing'&&<BillingHome/>}
             {activeItem==='reset'&&<ResetPage/>}
           </Segment>
         </Grid.Column>
